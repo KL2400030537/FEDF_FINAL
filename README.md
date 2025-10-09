@@ -37,7 +37,7 @@ Make sure you have Node.js installed.
 
 Clone the repo and go into the folder:
 
-git clone https://github.com/your-username/mindful-moments.git
+git clone https://github.com/your-username/FEDF_FINAL.git
 cd mindful-moments
 
 
