@@ -1,5 +1,9 @@
+li {
+  background: rgba(255, 255, 255, 0.1); /* transparent so it blends with page */
+}
+
 .feature.insights-tips {
-  background: #f9fafb; /* light neutral background */
+  background: #34495e; /* light neutral background */
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 20px;

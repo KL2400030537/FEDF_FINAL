@@ -1,12 +1,76 @@
-# React + Vite
+🌱 Mindful Moments – Mental Wellness Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a web app I built using React that focuses on mental wellness.
+The idea is to give users a calm space where they can track their moods, write daily reflections, try mindfulness exercises, and get small insights or motivational tips.
 
-Currently, two official plugins are available:
+✨ What’s Inside
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📊 Mood Tracking – record how you feel each day and spot patterns
 
-## Expanding the ESLint configuration
+📖 Daily Reflections / Journals – write down your thoughts in a private space
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+📚 Lessons & Guides – short guides about stress, mindfulness, resilience
+
+🌟 Stories & Experiences – inspiring stories for motivation
+
+🧘 Mindfulness Tasks – simple exercises like breathing or gratitude notes
+
+💡 Personalized Tips – small reminders or advice based on activity
+
+🎨 Cartoon Avatars – neutral fun avatars (so everyone gets a friendly face)
+
+🛠️ Tech Used
+
+React.js for the frontend
+
+CSS for styling (gradients, cards, animations)
+
+LocalStorage to save reflections and progress
+
+React Router for navigation
+
+DiceBear Avatars for the profile pictures
+
+🚀 How to Run It
+
+Make sure you have Node.js installed.
+
+Clone the repo and go into the folder:
+
+git clone https://github.com/your-username/mindful-moments.git
+cd mindful-moments
+
+
+Install everything:
+
+npm install
+
+
+Start the app:
+
+npm start
+
+
+It should open at http://localhost:3000/.
+
+📂 Project Structure (short version)
+src/
+ ├── components/       # all the features like MoodTracking, Reflections, etc
+ ├── styles/           # CSS files for dashboard and features
+ ├── App.jsx           # app routes
+ └── index.js          # entry point
+
+🌟 Why I Made This
+
+I wanted to create something small but meaningful for mental health.
+It combines ideas like journaling, mindfulness, and motivational content into one dashboard. The design is simple but friendly, and I tried to keep it easy to use.
+
+🚧 Future Ideas
+
+Proper user login + saving data in a database
+
+More lessons and guided meditations
+
+Progress charts with graphs
+
+Better mobile version

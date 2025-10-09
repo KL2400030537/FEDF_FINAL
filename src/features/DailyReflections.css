@@ -1,5 +1,5 @@
 .feature.daily-reflections {
-  background: linear-gradient(135deg, #fceabb, #f8b500); /* warm, soft gradient */
+  background: linear-gradient(135deg, #fceabb, #f8b500); /* warm gradient */
   border-radius: 18px;
   padding: 28px 24px;
   margin: 20px auto;
@@ -7,6 +7,9 @@
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
   font-family: 'Segoe UI', sans-serif;
   animation: fadeIn 0.6s ease-in-out;
+
+  box-sizing: border-box; 
+  overflow: hidden;      
 }
 
 .feature.daily-reflections h4 {
@@ -19,7 +22,8 @@
 }
 
 .feature.daily-reflections textarea {
-  width: 100%;
+  width: 100%;               
+  box-sizing: border-box;    
   min-height: 120px;
   padding: 14px 16px;
   border-radius: 14px;
@@ -47,6 +51,9 @@
   padding: 10px 14px;
   border-radius: 12px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+
+  width: 100%;            
+  box-sizing: border-box;  
   word-wrap: break-word;
 }
 
