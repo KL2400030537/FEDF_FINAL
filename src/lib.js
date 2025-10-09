@@ -1,6 +1,6 @@
 export const BASEURL='http://localhost:5000/';
 
-//utility function for callApis
+
 export function callApi(reqMethod, url, data, responseHandler){
     let options;
     if(reqMethod === 'GET' || reqMethod === 'DELETE')

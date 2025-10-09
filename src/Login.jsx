@@ -41,7 +41,7 @@ class Login extends Component {
         if (!signupData.lastName.trim()) err.lastName = "Last Name is required";
         if (!signupData.email.trim()) err.email = "Email ID is required";
         if (!signupData.phone.trim()) err.phone = "Phone Number is required";
-        if (signupData.password.length < 8) err.password = "Password must have 8 chars";
+        if (signupData.password.length < 8) err.password = "Password must have 8 characterss";
         if (signupData.confirmPassword !== signupData.password) err.confirmPassword = "Password does not match";
 
         this.setState({ errData: err });
@@ -124,7 +124,12 @@ class Login extends Component {
                 <div className='leftpanel'>
                     <h1>Welcome to MindCare 🌿</h1>
                     <p>Your safe space to track, reflect, and nurture your mental well-being.</p>
-                    <img src="/rocket.png" alt="Rocket" className="rocket" />
+                   <img 
+  src="https://cdn-icons-png.flaticon.com/512/3210/3210045.png" 
+  alt="Rocket" 
+  className="rocket" 
+/>
+
                     <blockquote>
                         “Your mental health is just as important as your physical health.”
                     </blockquote>
@@ -209,7 +214,7 @@ class Login extends Component {
                                 style={(!errData.phone ? {} : { border: "1px solid red" })}
                             />
 
-                            <label>Password *</label>
+                            <label>Password *(Must be 8 letters)</label>
                             <input
                                 type='password'
                                 placeholder='Password'
