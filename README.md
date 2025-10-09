@@ -1,4 +1,4 @@
-🌱 Mindful Moments – Mental Wellness Dashboard
+🌱 Mind Care – Mental Wellness Dashboard
 
 This is a web app I built using React that focuses on mental wellness.
 The idea is to give users a calm space where they can track their moods, write daily reflections, try mindfulness exercises, and get small insights or motivational tips.
@@ -37,7 +37,7 @@ Make sure you have Node.js installed.
 
 Clone the repo and go into the folder:
 
-git clone https://github.com/your-username/mindful-moments.git
+git clone https://github.com/your-username/FEDF_FINAL.git
 cd mindful-moments
 
 
