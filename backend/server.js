@@ -132,4 +132,4 @@ app.post("/api/moods", async (req, res) => {
         console.error("Error saving mood:", err);
         res.status(500).json("Internal Server Error");
     }
-});
+}); 

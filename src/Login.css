@@ -384,3 +384,38 @@
 @media (max-width: 900px) {
     .site-footer { width: calc(100% - 80px); font-size: 12px; bottom: 12px; }
 }
+.social-btn {
+  padding: 10px;
+  width: 100%;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.google-btn {
+  background: #ffffff;
+  border: 1px solid #ddd;
+}
+
+.github-btn {
+  background: #181717;
+  color: white;
+}
+
+.social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.admin-button {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+}

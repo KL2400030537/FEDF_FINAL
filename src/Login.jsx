@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
 import { BASEURL, callApi } from './lib';
+import ReCAPTCHA from "react-google-recaptcha";  // ✅ ADDED
 
 class Login extends Component {
 	constructor() {
@@ -24,6 +25,7 @@ class Login extends Component {
 				password: ""
 			},
 
+			captchaToken: "",         // ✅ ADDED
 			errData: {},
 			loginErr: ""
 		};
@@ -152,25 +154,34 @@ class Login extends Component {
 		});
 	}
 
+	handleCaptchaChange = (token) => {       // ✅ ADDED
+		this.setState({ captchaToken: token, loginErr: "" });
+	};
+
 	loginUser() {
 		const { email, password } = this.state.loginData;
+		const { captchaToken } = this.state;  // ✅ ADDED
 
 		if (!email || !password) {
 			this.setState({ loginErr: "Email and Password are required" });
 			return;
 		}
 
-		const data = JSON.stringify({ email, password });
+		if (!captchaToken) {                 // ✅ ADDED
+			this.setState({ loginErr: "Please complete the reCAPTCHA." });
+			return;
+		}
+
+		const data = JSON.stringify({ email, password, captcha: captchaToken }); // ✅ ADDED
 
 		callApi("POST", BASEURL + "login", data, this.loginResponse.bind(this));
 	}
 
 	loginAsAdmin() {
 		const { password } = this.state.loginData;
-		
-		// Check admin password locally
+
 		const ADMIN_PASSWORD = "admin77admin";
-		
+
 		if (!password) {
 			this.setState({ loginErr: "Password is required" });
 			return;
@@ -247,15 +258,21 @@ class Login extends Component {
 							onChange={(e) => this.handleLoginInput(e)}
 						/>
 
+						{/* ✅ ADDED CAPTCHA */}
+						<div style={{ margin: "12px 0" }}>
+							<ReCAPTCHA
+								sitekey="6LcEOxwsAAAAANq3gO30EnCgDu04uiZmPWR8rvir"
+								onChange={this.handleCaptchaChange}
+							/>
+						</div>
+
 						<button onClick={() => this.loginUser()}>Login</button>
 
 						{loginErr && <p style={{ color: "red" }}>{loginErr}</p>}
 
 						<p>
 							Don't have an account?{" "}
-							<span onClick={() => this.setState({ signup: true })}>
-								Sign Up
-							</span>
+							<span onClick={() => this.setState({ signup: true })}>Sign Up</span>
 						</p>
 
 						<div style={{ marginTop: "20px", paddingTop: "20px", borderTop: "1px solid #ddd" }}>
@@ -283,10 +300,7 @@ class Login extends Component {
 				{signup && (
 					<div className="overlay">
 						<div className="signup">
-							<button
-								className="close"
-								onClick={() => this.setState({ signup: false })}
-							>
+							<button className="close" onClick={() => this.setState({ signup: false })}>
 								X
 							</button>
 
@@ -302,9 +316,7 @@ class Login extends Component {
 								onChange={(e) => this.handleSignUpInput(e)}
 								style={errData.firstName ? { border: "1px solid red" } : {}}
 							/>
-							{errData.firstName && (
-								<p className="err">{errData.firstName}</p>
-							)}
+							{errData.firstName && <p className="err">{errData.firstName}</p>}
 
 							{/* LAST NAME */}
 							<label>Last Name *</label>
@@ -316,9 +328,7 @@ class Login extends Component {
 								onChange={(e) => this.handleSignUpInput(e)}
 								style={errData.lastName ? { border: "1px solid red" } : {}}
 							/>
-							{errData.lastName && (
-								<p className="err">{errData.lastName}</p>
-							)}
+							{errData.lastName && <p className="err">{errData.lastName}</p>}
 
 							{/* EMAIL */}
 							<label>Email *</label>
@@ -357,16 +367,12 @@ class Login extends Component {
 								/>
 								<span
 									className="toggle"
-									onClick={() =>
-										this.setState({ showPassword: !showPassword })
-									}
+									onClick={() => this.setState({ showPassword: !showPassword })}
 								>
 									{showPassword ? "🙈" : "👁️"}
 								</span>
 							</div>
-							{errData.password && (
-								<p className="err">{errData.password}</p>
-							)}
+							{errData.password && <p className="err">{errData.password}</p>}
 
 							{/* CONFIRM PASSWORD */}
 							<label>Confirm Password *</label>
@@ -377,31 +383,18 @@ class Login extends Component {
 									placeholder="Confirm Password"
 									value={signupData.confirmPassword}
 									onChange={(e) => this.handleSignUpInput(e)}
-									style={
-										errData.confirmPassword
-											? { border: "1px solid red" }
-											: {}
-									}
+									style={errData.confirmPassword ? { border: "1px solid red" } : {}}
 								/>
 								<span
 									className="toggle"
-									onClick={() =>
-										this.setState({
-											showConfirmPassword: !showConfirmPassword
-										})
-									}
+									onClick={() => this.setState({ showConfirmPassword: !showConfirmPassword })}
 								>
 									{showConfirmPassword ? "🙈" : "👁️"}
 								</span>
 							</div>
-							{errData.confirmPassword && (
-								<p className="err">{errData.confirmPassword}</p>
-							)}
+							{errData.confirmPassword && <p className="err">{errData.confirmPassword}</p>}
 
-							<button
-								className="regButton"
-								onClick={() => this.registerUser()}
-							>
+							<button className="regButton" onClick={() => this.registerUser()}>
 								Register
 							</button>
 						</div>
@@ -410,10 +403,7 @@ class Login extends Component {
 
 				{/* FOOTER */}
 				<footer className="site-footer">
-					<p>
-						This site is created for personal and educational use only.
-						All assets belong to their respective owners.
-					</p>
+					<p>This site is created for personal and educational use only. All assets belong to their respective owners.</p>
 					<p>© 2025 MINDCARE</p>
 				</footer>
 			</div>
