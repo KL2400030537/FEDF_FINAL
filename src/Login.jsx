@@ -3,244 +3,382 @@ import './Login.css';
 import { BASEURL, callApi } from './lib';
 
 class Login extends Component {
-    constructor() {
-        super();
-        this.state = {
-            signup: false,
-            signupData: {
-                firstName: "",
-                lastName: "",
-                email: "",
-                phone: "",
-                password: "",
-                confirmPassword: ""
-            },
-            loginData: {
-                email: "",
-                password: ""
-            },
-            errData: "",
-            loginErr: ""
-        };
-    }
+	constructor() {
+		super();
+		this.state = {
+			signup: false,
+			showPassword: false,
+			showConfirmPassword: false,
 
-    // ======== Signup Handlers ========
-    handleSignUpInput(e) {
-        this.setState({
-            signupData: {
-                ...this.state.signupData,
-                [e.target.name]: e.target.value
-            }
-        });
-    }
+			signupData: {
+				firstName: "",
+				lastName: "",
+				email: "",
+				phone: "",
+				password: "",
+				confirmPassword: ""
+			},
 
-    validateSignup() {
-        const { signupData } = this.state;
-        const err = {};
-        if (!signupData.firstName.trim()) err.firstName = "First Name is required";
-        if (!signupData.lastName.trim()) err.lastName = "Last Name is required";
-        if (!signupData.email.trim()) err.email = "Email ID is required";
-        if (!signupData.phone.trim()) err.phone = "Phone Number is required";
-        if (signupData.password.length < 8) err.password = "Password must have 8 characterss";
-        if (signupData.confirmPassword !== signupData.password) err.confirmPassword = "Password does not match";
+			loginData: {
+				email: "",
+				password: ""
+			},
 
-        this.setState({ errData: err });
-        return Object.keys(err).length === 0;
-    }
+			errData: {},
+			loginErr: ""
+		};
+	}
 
-    registerUser() {
-        if (!this.validateSignup()) return;
+	// ================= REAL-TIME VALIDATION =================
 
-        const { signupData } = this.state;
-        const data = JSON.stringify({
-            firstName: signupData.firstName,
-            lastName: signupData.lastName,
-            email: signupData.email,
-            phone: signupData.phone,
-            password: signupData.password
-        });
+	validateField(name, value) {
+		const errors = { ...this.state.errData };
 
-        callApi("POST", BASEURL + 'signup', data, this.signupResponse.bind(this));
-    }
+		const nameRegex = /^[A-Za-z][A-Za-z\s]{1,}$/;
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		const phoneRegex = /^[0-9]{10}$/;
+		const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-    signupResponse(res) {
-        const rdata = JSON.parse(res);
-        alert(rdata);
+		switch (name) {
+			case "firstName":
+				if (!value.trim()) errors.firstName = "First Name is required";
+				else if (!nameRegex.test(value))
+					errors.firstName = "Only letters, must start with a letter";
+				else delete errors.firstName;
+				break;
 
-        this.setState({
-            signupData: {
-                firstName: "",
-                lastName: "",
-                email: "",
-                phone: "",
-                password: "",
-                confirmPassword: ""
-            },
-            signup: false
-        });
-    }
+			case "lastName":
+				if (!value.trim()) errors.lastName = "Last Name is required";
+				else if (!nameRegex.test(value))
+					errors.lastName = "Only letters, must start with a letter";
+				else delete errors.lastName;
+				break;
 
-    // ======== Login Handlers ========
-    handleLoginInput(e) {
-        this.setState({
-            loginData: {
-                ...this.state.loginData,
-                [e.target.name]: e.target.value
-            }
-        });
-    }
+			case "email":
+				if (!value.trim()) errors.email = "Email is required";
+				else if (!emailRegex.test(value))
+					errors.email = "Invalid Email format";
+				else delete errors.email;
+				break;
 
-    loginUser() {
-        const { loginData } = this.state;
-        if (!loginData.email || !loginData.password) {
-            this.setState({ loginErr: "Email and Password are required" });
-            return;
-        }
+			case "phone":
+				if (!value.trim()) errors.phone = "Phone Number is required";
+				else if (!phoneRegex.test(value))
+					errors.phone = "Phone must be 10 digits";
+				else delete errors.phone;
+				break;
 
-        const data = JSON.stringify({
-            email: loginData.email,
-            password: loginData.password
-        });
+			case "password":
+				if (!passwordRegex.test(value))
+					errors.password = "Min 8 chars, 1 uppercase, 1 lowercase, 1 number";
+				else delete errors.password;
+				break;
 
-        callApi("POST", BASEURL + 'login', data, this.loginResponse.bind(this));
-    }
+			case "confirmPassword":
+				if (value !== this.state.signupData.password)
+					errors.confirmPassword = "Passwords do not match";
+				else delete errors.confirmPassword;
+				break;
 
-    loginResponse(res) {
-        const rdata = JSON.parse(res);
-        if (rdata.redirect) {
-            localStorage.setItem('userName', rdata.name);
-            window.location.href = rdata.redirect;
-        } else {
-            alert(rdata);
-        }
-    }
+			default:
+				break;
+		}
 
-    render() {
-        const { signup, signupData, errData, loginData, loginErr } = this.state;
+		this.setState({ errData: errors });
+	}
 
-        return (
-            <div className='login'>
-                {/* LEFT PANEL */}
-                <div className='leftpanel'>
-                    <h1>Welcome to MindCare 🌿</h1>
-                    <p>Your safe space to track, reflect, and nurture your mental well-being.</p>
-                   <img 
-  src="https://cdn-icons-png.flaticon.com/512/3210/3210045.png" 
-  alt="Rocket" 
-  className="rocket" 
-/>
+	handleSignUpInput(e) {
+		const { name, value } = e.target;
+		this.setState(
+			{
+				signupData: {
+					...this.state.signupData,
+					[name]: value
+				}
+			},
+			() => this.validateField(name, value)
+		);
+	}
 
-                    <blockquote>
-                        “Your mental health is just as important as your physical health.”
-                    </blockquote>
-                </div>
+	validateSignupAll() {
+		const fields = Object.keys(this.state.signupData);
+		fields.forEach((field) =>
+			this.validateField(field, this.state.signupData[field])
+		);
 
-                {/* RIGHT PANEL */}
-                <div className='rightpanel'>
-                    <div className='card'>
-                        <h2>LOGIN</h2>
-                        <p>Access your personalized mental wellness dashboard</p>
-                        <input
-                            type='text'
-                            placeholder='Email'
-                            name='email'
-                            value={loginData.email}
-                            onChange={(e) => this.handleLoginInput(e)}
-                        />
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            name='password'
-                            value={loginData.password}
-                            onChange={(e) => this.handleLoginInput(e)}
-                        />
-                        <button onClick={() => this.loginUser()}>Login</button>
-                        {loginErr && <p style={{ color: 'red' }}>{loginErr}</p>}
-                        <p>
-                            Don't have an account?{' '}
-                            <span onClick={() => this.setState({ signup: true })}>Sign Up</span>
-                        </p>
-                    </div>
-                </div>
+		return Object.keys(this.state.errData).length === 0;
+	}
 
-                {/* SIGNUP OVERLAY */}
-                {signup && (
-                    <div className='overlay'>
-                        <div className='signup'>
-                            <button className='close' onClick={() => this.setState({ signup: false })}>X</button>
-                            <h2>Create an account</h2>
+	registerUser() {
+		if (!this.validateSignupAll()) return;
 
-                            <label>First Name *</label>
-                            <input
-                                type='text'
-                                placeholder='First Name'
-                                name='firstName'
-                                value={signupData.firstName}
-                                onChange={(e) => this.handleSignUpInput(e)}
-                                autoComplete='off'
-                                style={(!errData.firstName ? {} : { border: "1px solid red" })}
-                            />
+		const { signupData } = this.state;
+		const data = JSON.stringify({
+			firstName: signupData.firstName,
+			lastName: signupData.lastName,
+			email: signupData.email,
+			phone: signupData.phone,
+			password: signupData.password
+		});
 
-                            <label>Last Name *</label>
-                            <input
-                                type='text'
-                                placeholder='Last Name'
-                                name='lastName'
-                                value={signupData.lastName}
-                                onChange={(e) => this.handleSignUpInput(e)}
-                                autoComplete='off'
-                                style={(!errData.lastName ? {} : { border: "1px solid red" })}
-                            />
+		callApi("POST", BASEURL + "signup", data, this.signupResponse.bind(this));
+	}
 
-                            <label>Email ID *</label>
-                            <input
-                                type='text'
-                                placeholder='Email ID'
-                                name='email'
-                                value={signupData.email}
-                                onChange={(e) => this.handleSignUpInput(e)}
-                                autoComplete='off'
-                                style={(!errData.email ? {} : { border: "1px solid red" })}
-                            />
+	signupResponse(res) {
+		const rdata = JSON.parse(res);
+		alert(rdata);
 
-                            <label>Phone Number *</label>
-                            <input
-                                type='text'
-                                placeholder='Phone Number'
-                                name='phone'
-                                value={signupData.phone}
-                                onChange={(e) => this.handleSignUpInput(e)}
-                                autoComplete='off'
-                                style={(!errData.phone ? {} : { border: "1px solid red" })}
-                            />
+		this.setState({
+			signupData: {
+				firstName: "",
+				lastName: "",
+				email: "",
+				phone: "",
+				password: "",
+				confirmPassword: ""
+			},
+			errData: {},
+			signup: false
+		});
+	}
 
-                            <label>Password *(Must be 8 letters)</label>
-                            <input
-                                type='password'
-                                placeholder='Password'
-                                name='password'
-                                value={signupData.password}
-                                onChange={(e) => this.handleSignUpInput(e)}
-                                style={(!errData.password ? {} : { border: "1px solid red" })}
-                            />
+	// ================= LOGIN =================
+	handleLoginInput(e) {
+		this.setState({
+			loginData: {
+				...this.state.loginData,
+				[e.target.name]: e.target.value
+			}
+		});
+	}
 
-                            <label>Confirm Password *</label>
-                            <input
-                                type='password'
-                                placeholder='Confirm Password'
-                                name='confirmPassword'
-                                value={signupData.confirmPassword}
-                                onChange={(e) => this.handleSignUpInput(e)}
-                                style={(!errData.confirmPassword ? {} : { border: "1px solid red" })}
-                            />
+	loginUser() {
+		const { email, password } = this.state.loginData;
 
-                            <button className='regButton' onClick={() => this.registerUser()}>Register</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    }
+		if (!email || !password) {
+			this.setState({ loginErr: "Email and Password are required" });
+			return;
+		}
+
+		const data = JSON.stringify({ email, password });
+
+		callApi("POST", BASEURL + "login", data, this.loginResponse.bind(this));
+	}
+
+	loginResponse(res) {
+		const rdata = JSON.parse(res);
+		if (rdata.redirect) {
+			localStorage.setItem("userName", rdata.name);
+			window.location.href = rdata.redirect;
+		} else {
+			alert(rdata);
+		}
+	}
+
+	render() {
+		const {
+			signup,
+			signupData,
+			errData,
+			loginData,
+			loginErr,
+			showPassword,
+			showConfirmPassword
+		} = this.state;
+
+		return (
+			<div className="login">
+				{/* LEFT PANEL */}
+				<div className="leftpanel">
+					<h1>Welcome to MindCare 🌿</h1>
+					<p>Your safe space to reflect and grow emotionally.</p>
+
+					<img
+						src="https://cdn-icons-png.flaticon.com/512/3210/3210045.png"
+						alt="Rocket"
+						className="rocket"
+					/>
+
+					<blockquote>
+						“Your mental health is your superpower — nurture it.”
+					</blockquote>
+				</div>
+
+				{/* RIGHT PANEL */}
+				<div className="rightpanel">
+					<div className="card">
+						<h2>LOGIN</h2>
+						<p>Access your MindCare Dashboard</p>
+
+						<input
+							type="text"
+							placeholder="Email"
+							name="email"
+							value={loginData.email}
+							onChange={(e) => this.handleLoginInput(e)}
+						/>
+
+						<input
+							type="password"
+							placeholder="Password"
+							name="password"
+							value={loginData.password}
+							onChange={(e) => this.handleLoginInput(e)}
+						/>
+
+						<button onClick={() => this.loginUser()}>Login</button>
+
+						{loginErr && <p style={{ color: "red" }}>{loginErr}</p>}
+
+						<p>
+							Don't have an account?{" "}
+							<span onClick={() => this.setState({ signup: true })}>
+								Sign Up
+							</span>
+						</p>
+					</div>
+				</div>
+
+				{/* SIGNUP POPUP */}
+				{signup && (
+					<div className="overlay">
+						<div className="signup">
+							<button
+								className="close"
+								onClick={() => this.setState({ signup: false })}
+							>
+								X
+							</button>
+
+							<h2>Create an account</h2>
+
+							{/* FIRST NAME */}
+							<label>First Name *</label>
+							<input
+								type="text"
+								name="firstName"
+								placeholder="First Name"
+								value={signupData.firstName}
+								onChange={(e) => this.handleSignUpInput(e)}
+								style={errData.firstName ? { border: "1px solid red" } : {}}
+							/>
+							{errData.firstName && (
+								<p className="err">{errData.firstName}</p>
+							)}
+
+							{/* LAST NAME */}
+							<label>Last Name *</label>
+							<input
+								type="text"
+								name="lastName"
+								placeholder="Last Name"
+								value={signupData.lastName}
+								onChange={(e) => this.handleSignUpInput(e)}
+								style={errData.lastName ? { border: "1px solid red" } : {}}
+							/>
+							{errData.lastName && (
+								<p className="err">{errData.lastName}</p>
+							)}
+
+							{/* EMAIL */}
+							<label>Email *</label>
+							<input
+								type="text"
+								name="email"
+								placeholder="Email"
+								value={signupData.email}
+								onChange={(e) => this.handleSignUpInput(e)}
+								style={errData.email ? { border: "1px solid red" } : {}}
+							/>
+							{errData.email && <p className="err">{errData.email}</p>}
+
+							{/* PHONE */}
+							<label>Phone Number *</label>
+							<input
+								type="text"
+								name="phone"
+								placeholder="Phone Number"
+								value={signupData.phone}
+								onChange={(e) => this.handleSignUpInput(e)}
+								style={errData.phone ? { border: "1px solid red" } : {}}
+							/>
+							{errData.phone && <p className="err">{errData.phone}</p>}
+
+							{/* PASSWORD */}
+							<label>Password *</label>
+							<div className="password-field">
+								<input
+									type={showPassword ? "text" : "password"}
+									name="password"
+									placeholder="Password"
+									value={signupData.password}
+									onChange={(e) => this.handleSignUpInput(e)}
+									style={errData.password ? { border: "1px solid red" } : {}}
+								/>
+								<span
+									className="toggle"
+									onClick={() =>
+										this.setState({ showPassword: !showPassword })
+									}
+								>
+									{showPassword ? "🙈" : "👁️"}
+								</span>
+							</div>
+							{errData.password && (
+								<p className="err">{errData.password}</p>
+							)}
+
+							{/* CONFIRM PASSWORD */}
+							<label>Confirm Password *</label>
+							<div className="password-field">
+								<input
+									type={showConfirmPassword ? "text" : "password"}
+									name="confirmPassword"
+									placeholder="Confirm Password"
+									value={signupData.confirmPassword}
+									onChange={(e) => this.handleSignUpInput(e)}
+									style={
+										errData.confirmPassword
+											? { border: "1px solid red" }
+											: {}
+									}
+								/>
+								<span
+									className="toggle"
+									onClick={() =>
+										this.setState({
+											showConfirmPassword: !showConfirmPassword
+										})
+									}
+								>
+									{showConfirmPassword ? "🙈" : "👁️"}
+								</span>
+							</div>
+							{errData.confirmPassword && (
+								<p className="err">{errData.confirmPassword}</p>
+							)}
+
+							<button
+								className="regButton"
+								onClick={() => this.registerUser()}
+							>
+								Register
+							</button>
+						</div>
+					</div>
+				)}
+
+				{/* FOOTER */}
+				<footer className="site-footer">
+					<p>
+						This site is created for personal and educational use only.
+						All assets belong to their respective owners.
+					</p>
+					<p>© 2025 MINDCARE</p>
+				</footer>
+			</div>
+		);
+	}
 }
 
 export default Login;

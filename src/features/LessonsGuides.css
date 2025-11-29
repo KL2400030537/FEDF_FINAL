@@ -41,6 +41,29 @@
   overflow: hidden;
 }
 
+/* Link styling inside each lesson card */
+.feature.lessons-guides li a.lesson-link {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  padding: 8px 4px;
+}
+
+/* Placeholder state when link hasn't been provided */
+.feature.lessons-guides li a.link-placeholder {
+  opacity: 0.85;
+  cursor: default;
+}
+
+.feature.lessons-guides li a.link-placeholder .hint {
+  display: block;
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 6px;
+}
+
 .feature.lessons-guides li::before {
   content: "📘"; /* book emoji */
   font-size: 1.5rem;

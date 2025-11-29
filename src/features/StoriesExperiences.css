@@ -70,6 +70,16 @@
 .feature.stories-experiences li:hover::before {
   content: "📖";
 }
+.story-link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+.story-link:hover {
+  text-decoration: underline;
+  color: #2c3e50;
+}
 
 @keyframes fadeIn {
   from {

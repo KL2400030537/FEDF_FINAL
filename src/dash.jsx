@@ -94,6 +94,17 @@ const features = [
   { title: 'Stories & Experiences', description: 'Inspirational stories from others to motivate and support mental wellness.', icon: '🌟' },
   { title: 'Tasks & Mindfulness Exercises', description: 'Daily activities and exercises for stress relief and emotional balance.', icon: '🧘' },
   { title: 'Insights & Personalized Tips', description: 'Visual summaries, recommendations, and motivational content based on user activity.', icon: '💡' },
+  {
+  title: "MindCare AI Helper",
+  description: "A gentle, supportive mental wellness companion.",
+  icon: "🤍",
+},
+{
+  title:"Therapy Sessions",
+  description:"Connect with licensed therapists for personalized support.",
+  icon:"🛋️",
+}
+
 ];
 
 const Dashboard = () => {
@@ -117,7 +128,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <header className="header">
         <img
-          src={`https://i.pravatar.cc/100?u=${userName}`}
+          src={`https://i.pravatar.cc/98?u=${userName}`}
           alt="User avatar"
           className="avatar"
         />

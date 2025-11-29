@@ -128,6 +128,11 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
+    /* Make the login container a positioning context for the footer */
+    .login {
+        position: relative;
+    }
+
 /* Left Panel */
 .login .leftpanel {
     flex: 1;
@@ -334,4 +339,48 @@
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
+}
+
+/* Footer full-width at bottom of the .login container */
+.login .site-footer {
+    position: absolute; /* container (.login) is already position: relative */
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    padding: 0 20px;
+    box-sizing: border-box;
+    text-align: center;
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    line-height: 1.4;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+/* make small-screen adjustment still apply */
+@media (max-width: 900px) {
+    .login .site-footer { font-size: 12px; bottom: 12px; }
+}
+.site-footer {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 18px;
+        width: calc(100% - 160px);
+        max-width: 900px;
+        text-align: center;
+        color: rgba(255,255,255,0.9);
+        font-size: 13px;
+        line-height: 1.4;
+        pointer-events: none; /* prevents accidental clicks on placeholder text */
+        opacity: 0.9;
+}
+
+.site-footer p { margin: 4px 0; }
+
+@media (max-width: 900px) {
+    .site-footer { width: calc(100% - 80px); font-size: 12px; bottom: 12px; }
 }

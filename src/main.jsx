@@ -10,6 +10,11 @@ import LessonsGuides from './features/LessonsGuides';
 import StoriesExperiences from './features/StoriesExperiences';
 import TasksMindfulness from './features/TasksMindfulness';
 import InsightsTips from './features/InsightsTips';
+import MindCareAIHelper from './features/MindCareAI.jsx';
+import Therapy from "./features/Therapy.jsx";
+
+
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -23,6 +28,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/stories-and-experiences" element={<StoriesExperiences />} />
         <Route path="/tasks-and-mindfulness-exercises" element={<TasksMindfulness />} />
         <Route path="/insights-and-personalized-tips" element={<InsightsTips />} />
+        <Route path="/mindcare-ai-helper" element={<MindCareAIHelper />} />
+        <Route path="/therapy-sessions" element={<Therapy />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
