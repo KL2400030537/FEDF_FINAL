@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import Dashboard from './dash.jsx';
 import Login from './Login.jsx';
+import AdminDashboard from './AdminDashboard.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MoodTracking from './features/MoodTracking';
 import DailyReflections from './features/DailyReflections';
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/mood-tracking" element={<MoodTracking />} />
         <Route path="/daily-reflections---journals" element={<DailyReflections />} />
         <Route path="/lessons-and-guides" element={<LessonsGuides />} />

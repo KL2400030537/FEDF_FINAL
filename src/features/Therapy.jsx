@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./Therapy.css";
 
 const Therapy = () => {
@@ -21,8 +22,11 @@ const Therapy = () => {
     return () => clearInterval(timer);
   }, [quotes.length]);
 
+  const navigate = useNavigate();
+
   return (
     <div className="therapy-container">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h2 className="therapy-title">Therapy & Emotional Support 🌿</h2>
 
       <div className="quote-box">

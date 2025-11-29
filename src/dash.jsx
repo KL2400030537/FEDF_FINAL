@@ -123,9 +123,34 @@ const Dashboard = () => {
     navigate(path);
   };
 
-   
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    localStorage.removeItem('isAdmin');
+    navigate('/');
+  };
+
   return (
     <div className="dashboard">
+      <nav className="dashboard-nav">
+        <div className="nav-brand" onClick={() => navigate('/dashboard')}>MindCare</div>
+        <div className="nav-links">
+          <button className="nav-item" onClick={() => navigate('/dashboard')}>Home</button>
+          <button className="nav-item" onClick={() => navigate('/mood-tracking')}>Mood</button>
+          <button className="nav-item" onClick={() => navigate('/daily-reflections---journals')}>Journals</button>
+          <button className="nav-item" onClick={() => navigate('/lessons-and-guides')}>Lessons</button>
+          <button className="nav-item" onClick={() => navigate('/stories-and-experiences')}>Stories</button>
+          <button className="nav-item" onClick={() => navigate('/tasks-and-mindfulness-exercises')}>Tasks</button>
+          <button className="nav-item" onClick={() => navigate('/insights-and-personalized-tips')}>Insights</button>
+          {localStorage.getItem('isAdmin') === 'true' && (
+            <button className="nav-item nav-admin" onClick={() => navigate('/admin')}>Admin</button>
+          )}
+        </div>
+        <div className="nav-actions">
+          <div className="nav-user">{userName || 'Guest'}</div>
+          <button className="nav-logout" onClick={handleLogout}>Logout</button>
+        </div>
+      </nav>
+
       <header className="header">
         <img
           src={`https://i.pravatar.cc/98?u=${userName}`}

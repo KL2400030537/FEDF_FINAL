@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
@@ -7,7 +8,8 @@ import './MoodTracking.css';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const MoodTracking = () => {
-  const userId = "USER_ID"; // <--- Replace with real user ID from auth
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId") || "USER_ID"; // Get real user ID from localStorage
   const [mood, setMood] = useState('');
   const [note, setNote] = useState('');
   const [moodEntries, setMoodEntries] = useState([]);
@@ -63,6 +65,7 @@ const MoodTracking = () => {
 
   return (
     <div className="mood-tracking-container">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h2>Mood Tracking</h2>
       <p>Track your current mood and reflect on your emotional state.</p>
 

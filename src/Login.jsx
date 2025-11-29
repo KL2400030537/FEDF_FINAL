@@ -165,10 +165,31 @@ class Login extends Component {
 		callApi("POST", BASEURL + "login", data, this.loginResponse.bind(this));
 	}
 
+	loginAsAdmin() {
+		const { password } = this.state.loginData;
+		
+		// Check admin password locally
+		const ADMIN_PASSWORD = "admin77admin";
+		
+		if (!password) {
+			this.setState({ loginErr: "Password is required" });
+			return;
+		}
+
+		if (password === ADMIN_PASSWORD) {
+			localStorage.setItem("userName", "Admin");
+			localStorage.setItem("userRole", "admin");
+			window.location.href = "/admin-dashboard";
+		} else {
+			this.setState({ loginErr: "Invalid Admin Password!" });
+		}
+	}
+
 	loginResponse(res) {
 		const rdata = JSON.parse(res);
 		if (rdata.redirect) {
 			localStorage.setItem("userName", rdata.name);
+			localStorage.setItem("userId", rdata.userId);
 			window.location.href = rdata.redirect;
 		} else {
 			alert(rdata);
@@ -236,6 +257,25 @@ class Login extends Component {
 								Sign Up
 							</span>
 						</p>
+
+						<div style={{ marginTop: "20px", paddingTop: "20px", borderTop: "1px solid #ddd" }}>
+							<p style={{ fontSize: "12px", color: "#666", marginBottom: "10px" }}>👨‍💼 Admin Access</p>
+							<button 
+								onClick={() => this.loginAsAdmin()}
+								style={{
+									width: "100%",
+									padding: "10px",
+									background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+									color: "white",
+									border: "none",
+									borderRadius: "5px",
+									cursor: "pointer",
+									fontWeight: "bold"
+								}}
+							>
+								Login as Admin
+							</button>
+						</div>
 					</div>
 				</div>
 

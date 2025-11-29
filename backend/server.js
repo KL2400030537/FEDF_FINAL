@@ -97,6 +97,19 @@ app.get("/api/moods/:userId", async (req, res) => {
     }
 });
 
+// GET all users (for admin)
+app.get("/api/users", async (req, res) => {
+    try {
+        const users = await db.collection("users")
+            .find({}, { projection: { password: 0 } })
+            .toArray();
+        res.status(200).json(users);
+    } catch (err) {
+        console.error("Error fetching users:", err);
+        res.status(500).json("Internal Server Error");
+    }
+});
+
 // POST a new mood entry
 app.post("/api/moods", async (req, res) => {
     try {

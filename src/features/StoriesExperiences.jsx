@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './StoriesExperiences.css';
 
 const StoriesExperiences = () => {
+  const navigate = useNavigate();
   const stories = [
     {
       title: 'Story 1: Overcoming Anxiety',
@@ -23,6 +25,7 @@ const StoriesExperiences = () => {
 
   return (
     <div className="feature stories-experiences">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h4>Stories & Experiences</h4>
       <ul>
         {stories.map((story, index) => (

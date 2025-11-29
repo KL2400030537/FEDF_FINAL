@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DailyReflections.css';
 const DailyReflections = () => {
+  const navigate = useNavigate();
   const [reflection, setReflection] = useState('');
 
   useEffect(() => {
@@ -18,6 +20,7 @@ const DailyReflections = () => {
 
   return (
     <div className="feature daily-reflections">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h4>Daily Reflections</h4>
       <textarea
         value={reflection}

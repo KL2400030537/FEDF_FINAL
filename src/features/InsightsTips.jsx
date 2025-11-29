@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './InsightsTips.css';
 // Sample pool of insights (you can expand this list)
 const insightPool = [
@@ -15,6 +16,7 @@ const insightPool = [
 ];
 
 const InsightsTips = () => {
+  const navigate = useNavigate();
   const [insights, setInsights] = useState([]);
 
   useEffect(() => {
@@ -40,6 +42,7 @@ const InsightsTips = () => {
 
   return (
     <div className="feature insights-tips">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h4>Insights & Personalized Tips</h4>
       <ul>
         {insights.map((insight, index) => (

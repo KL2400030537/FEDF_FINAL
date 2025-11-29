@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./mindcareAI.css";
 
 const emotionalResponses = [
@@ -83,6 +84,7 @@ const affirmations = [
 ];
 
 export default function MindCareAI() {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Hello 🌿 I'm here with you. How are you feeling today?" },
   ]);
@@ -129,6 +131,7 @@ export default function MindCareAI() {
 
   return (
     <div className="ai-container">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h2 className="ai-title">MindCare AI Helper 🌿</h2>
 
       <div className="chat-box">

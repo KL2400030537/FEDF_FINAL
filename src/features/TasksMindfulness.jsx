@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './TasksMindfulness.css';
 const TasksMindfulness = () => {
+  const navigate = useNavigate();
   const [completedTasks, setCompletedTasks] = useState([]);
 
   const tasks = [
@@ -23,6 +25,7 @@ const TasksMindfulness = () => {
 
   return (
     <div className="feature tasks-mindfulness">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h4>Tasks & Mindfulness Exercises</h4>
       <ul>
         {tasks.map((task, index) => (

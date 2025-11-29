@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LessonsGuides.css';
 
 const LessonsGuides = () => {
+  const navigate = useNavigate();
  
   const lessons = [
     { title: 'Understanding Stress', link: 'https://jedfoundation.org/resource/understanding-stress/' }, 
@@ -11,6 +13,7 @@ const LessonsGuides = () => {
 
   return (
     <div className="feature lessons-guides">
+      <button className="back-btn" onClick={() => navigate('/dashboard')}>← Back</button>
       <h4>Lessons & Guides</h4>
       <ul>
         {lessons.map((lesson, index) => (
