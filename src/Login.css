@@ -191,6 +191,92 @@
     text-align: center;
 }
 
+
+/* --------------------------
+     Eye-catching theme tweaks
+     -------------------------- */
+
+/* Animated gradient background */
+.login {
+    background: linear-gradient(120deg, #ff758c, #ff7eb3, #7afcff, #5b86e5);
+    background-size: 800% 800%;
+    animation: gradientShift 12s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Decorative left panel accent */
+.login .leftpanel {
+    position: relative;
+    overflow: hidden;
+}
+.login .leftpanel::before {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -40px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+    transform: rotate(25deg);
+    filter: blur(22px);
+    pointer-events: none;
+}
+
+.login .leftpanel h1 { text-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+
+/* Glass-style card */
+.login .rightpanel .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.85));
+    border: 1px solid rgba(255,255,255,0.45);
+    box-shadow: 0 18px 40px rgba(46, 49, 73, 0.25);
+    backdrop-filter: blur(6px) saturate(120%);
+}
+
+/* Primary button styling (keeps original color but more modern) */
+.login .rightpanel .card button {
+    background: linear-gradient(90deg, #ff4f7b, #ff758c);
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    box-shadow: 0 8px 20px rgba(255,79,123,0.18);
+    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+.login .rightpanel .card button:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(255,79,123,0.22); }
+
+/* Social / alternative login buttons */
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+.social-btn.google { background: #fff; color: #222; }
+.social-btn.google:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+.social-btn.guest { background: linear-gradient(90deg,#43e97b,#38f9d7); color: #042b24; }
+.social-btn.guest:hover { transform: translateY(-2px); }
+
+/* Inputs: subtle inner shadow and placeholder style */
+.login .rightpanel .card input::placeholder { color: #bdbdbd; }
+.login .rightpanel .card input { box-shadow: inset 0 2px 6px rgba(16,24,40,0.03); }
+
+/* small screen adjustments */
+@media (max-width: 900px) {
+    .login { flex-direction: column; padding: 24px; gap: 20px; }
+    .login .leftpanel { align-items: center; text-align: center; border-radius: 20px; }
+    .site-footer { display: none; }
+}
+
 /* Inputs */
 .login .rightpanel .card input {
     width: 100%;
