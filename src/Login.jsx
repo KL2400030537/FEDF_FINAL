@@ -259,7 +259,7 @@ class Login extends Component {
 						/>
 
 						{/* ✅ ADDED CAPTCHA */}
-						<div style={{ margin: "12px 0" }}>
+						{/* <div style={{ margin: "12px 0" }}>
 							<ReCAPTCHA
 								sitekey="6LcEOxwsAAAAANq3gO30EnCgDu04uiZmPWR8rvir"
 								onChange={this.handleCaptchaChange}
@@ -268,7 +268,7 @@ class Login extends Component {
 
 						<button onClick={() => this.loginUser()}>Login</button>
 
-						{loginErr && <p style={{ color: "red" }}>{loginErr}</p>}
+						{loginErr && <p style={{ color: "red" }}>{loginErr}</p>} */}
 
 						<p>
 							Don't have an account?{" "}

@@ -1,4 +1,4 @@
-export const BASEURL='https://fedf-final-three.vercel.app/';
+export const BASEURL='http://localhost:5000/';
 
 
 export function callApi(reqMethod, url, data, responseHandler){
